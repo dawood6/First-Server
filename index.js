@@ -1,11 +1,14 @@
+const http = require('http')
 const request = require('request')
      ,url = 'https://jsonplaceholder.typicode.com/users'
+const PORT = 3003
 
 const usersObj = {
   users: []
 }
 
-request(url, (error, response, body)=> {
+function requestHandler() {
+request(url, (error, response)=> {
   if (!error && response.statusCode === 200) {
     const { users } = usersObj.users
     const response = users
@@ -19,4 +22,10 @@ request(url, (error, response, body)=> {
     console.log("Got an error: ", error, ", status code: ", response.statusCode)
   }
 })
+}
 
+const server = http.createServer(requestHandler)
+
+server.listen(PORT, () => {
+  console.log('server is running on port 3003')
+})
